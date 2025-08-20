@@ -1,0 +1,23 @@
+Package: autotesteR
+Title: Funções Automatizadas para Testes Estatísticos Básicos
+Version: 0.1.0
+Authors@R: 
+    person("Luiz", "Garcia", email = "luiz.cardoso@ufpr.br", role = c("aut", "cre"))
+Description: O pacote autotestR fornece funções simples e intuitivas para
+    selecionar, aplicar e visualizar testes estatísticos básicos com base
+    nas características dos dados. Inclui verificação automática de
+    normalidade, homogeneidade e tipo de variável.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    car,
+    dplyr,
+    FSA,
+    ggplot2,
+    multcompView,
+    nortest,
+    stats,
+    utils
