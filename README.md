@@ -60,7 +60,7 @@ pre.teste(dados$valor ~ dados$grupo)
 
 ## Contato
 👨‍🔬 Luiz Fernando Cardoso Garcia
-📧 Email: lgarcia@aluno.fiocruz.br
+📧 Email: luiz.cardoso@ufpr.br
 💼 LinkedIn: luiz-garcia-7025a277
 
 
