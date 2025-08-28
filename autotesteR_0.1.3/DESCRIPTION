@@ -1,0 +1,20 @@
+Package: autotesteR
+Title: Simplified Statistical Tests With Auto-Suggestions
+Version: 0.1.3
+Authors@R: 
+    person("Luiz", "Garcia", email = "luiz.cardoso@ufpr.br", role = c("aut", "cre"))
+Maintainer: Luiz Garcia <luiz.cardoso@ufpr.br>
+Description: Provides simple and intuitive functions to select, apply, and 
+    visualize basic statistical tests based on the characteristics of the data. 
+    Includes automatic checks for normality, homogeneity, and variable types, 
+    with accessible outputs and clear plots.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: car, dplyr, FSA, ggplot2, multcompView, nortest, stats, utils
+Suggests: crayon
+Depends: R (>= 4.1.0)
+NeedsCompilation: no
+Packaged: 2025-08-21 11:54:20 UTC; Seu Computador
+Author: Luiz Garcia [aut, cre]
