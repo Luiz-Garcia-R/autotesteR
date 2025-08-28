@@ -1,0 +1,24 @@
+Package: autotesteR
+Title: Automated Functions for Basic Statistical Tests
+Version: 0.1.5
+Authors@R: 
+    person("Luiz", "Garcia", email = "luiz.cardoso@ufpr.br", role = c("aut", "cre"))
+Description: The package autotesteR provides simple and intuitive functions 
+    to select, apply, and visualize basic statistical tests based on data 
+    characteristics. Includes automated checking for normality, homogeneity, 
+    and variable types. Statistical methods implemented follow classical 
+    references, such as Student (1908) <doi:10.1098/rsta.1908.0018> for the 
+    t-test, Mann and Whitney (1947) <doi:10.1214/aoms/1177730491> for the 
+    Mann-Whitney U test, Pearson (1896) <doi:10.1080/14786449608620976> for 
+    correlation, Spearman (1904) <doi:10.2307/1412159> for rank correlation, 
+    Fisher (1925, ISBN:978-0028447308) for ANOVA and chi-square tests.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: car, crayon, dplyr, FSA, ggplot2, multcompView, nortest,
+        stats, utils
+NeedsCompilation: no
+Packaged: 2025-08-28 12:09:25 UTC; Seu Computador
+Author: Luiz Garcia [aut, cre]
+Maintainer: Luiz Garcia <luiz.cardoso@ufpr.br>
