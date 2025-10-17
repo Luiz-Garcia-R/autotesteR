@@ -1,0 +1,24 @@
+Package: autolearnR
+Title: Automated Dataset Diagnostics and Learning Model Suggestions
+Version: 0.0.1
+Authors@R: 
+    person("Luiz", "Garcia", 
+           email = "luiz.cardoso@ufpr.br", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9616-0927", affiliation = "UFPR"))
+Description: Provides automated diagnostic checks for datasets, including
+    detection of variable types, class balance, normality, missing values,
+    and zero-variance features. Based on these diagnostics, the package
+    suggests appropriate machine learning models for classification,
+    regression, or clustering tasks. Designed for simplicity and reproducibility.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    crayon,
+    dplyr,
+    stats,
+    utils
+Depends: 
+    R (>= 3.5)
