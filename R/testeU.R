@@ -135,7 +135,7 @@ Exemplos:
     ggplot2::labs(
       title = titulo,
       subtitle = p_label,
-      x = x,
+      x = "",
       y = y
     )
 

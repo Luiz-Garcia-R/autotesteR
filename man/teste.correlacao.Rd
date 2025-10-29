@@ -6,7 +6,7 @@
 \usage{
 teste.correlacao(
   x,
-  y,
+  y = NULL,
   metodo = "auto",
   ajuda = FALSE,
   verbose = TRUE,
@@ -14,9 +14,9 @@ teste.correlacao(
 )
 }
 \arguments{
-\item{x}{Vetor numerico}
+\item{x}{Vetor numerico ou data frame com duas colunas numericas}
 
-\item{y}{Vetor numerico}
+\item{y}{Vetor numerico (opcional se x for data frame)}
 
 \item{metodo}{Metodo de correlacao: "auto" (padrao), "pearson", "spearman" ou "kendall"}
 
@@ -38,5 +38,8 @@ Opcionalmente exibe graficos de diagnostico e grafico da correlacao com linha de
 x <- rnorm(30)
 y <- x + rnorm(30)
 teste.correlacao(x, y, plot_normalidade = TRUE)
+
+df <- data.frame(a = rnorm(30), b = rnorm(30))
+teste.correlacao(df)
 
 }
