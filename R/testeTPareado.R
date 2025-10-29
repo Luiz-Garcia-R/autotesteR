@@ -114,7 +114,7 @@ Exemplo:
       legend.position = "none",
       axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
     ) +
-    ggplot2::labs(title = titulo, subtitle = p_label, x = x, y = y)
+    ggplot2::labs(title = titulo, subtitle = p_label, x = "", y = y)
 
   print(g)
 

@@ -4,8 +4,8 @@
 #' entre Pearson, Spearman ou Kendall com base na normalidade, empates e outliers.
 #' Opcionalmente exibe graficos de diagnostico e grafico da correlacao com linha de tendencia.
 #'
-#' @param x Vetor numerico
-#' @param y Vetor numerico
+#' @param x Vetor numerico ou data frame com duas colunas numericas
+#' @param y Vetor numerico (opcional se x for data frame)
 #' @param metodo Metodo de correlacao: "auto" (padrao), "pearson", "spearman" ou "kendall"
 #' @param ajuda Se TRUE, exibe explicacao detalhada da funcao
 #' @param verbose Se TRUE, imprime mensagens sobre o metodo escolhido e testes de normalidade
@@ -19,12 +19,15 @@
 #' y <- x + rnorm(30)
 #' teste.correlacao(x, y, plot_normalidade = TRUE)
 #'
+#' df <- data.frame(a = rnorm(30), b = rnorm(30))
+#' teste.correlacao(df)
+#'
 #' @export
-teste.correlacao <- function(x, y, metodo = "auto", ajuda = FALSE,
+teste.correlacao <- function(x, y = NULL, metodo = "auto", ajuda = FALSE,
                              verbose = TRUE, plot_normalidade = FALSE) {
 
   # Mensagem de ajuda
-  if (ajuda || missing(x) || missing(y)) {
+  if (ajuda || missing(x)) {
     if (verbose) {
       message("
 Funcao teste.correlacao()
@@ -37,7 +40,7 @@ Uso:
   teste.correlacao(x, y, metodo = 'auto', plot_normalidade = TRUE)
 
 Argumentos:
-  x, y             Vetores numericos de mesma dimensao
+  x, y             Vetores numericos de mesma dimensao ou data frame com duas colunas numericas
   metodo           'auto', 'pearson', 'spearman' ou 'kendall'
   verbose          Se TRUE, exibe qual metodo foi usado e o motivo
   ajuda            Se TRUE, exibe esta mensagem com exemplo
@@ -52,13 +55,30 @@ Exemplo:
     return(invisible(NULL))
   }
 
-  # Validacoes
-  if (!is.numeric(x) || !is.numeric(y)) stop("Ambos os vetores devem ser numericos.")
-  if (length(x) != length(y)) stop("Os vetores devem ter o mesmo comprimento.")
+  # Checagem se x é data frame
+  if (is.data.frame(x)) {
+    if (ncol(x) != 2)
+      stop("O data frame deve conter exatamente duas colunas numericas.")
+    if (!all(sapply(x, is.numeric)))
+      stop("As duas colunas do data frame devem ser numericas.")
 
-  nome_x <- deparse(substitute(x))
-  nome_y <- deparse(substitute(y))
-  dados <- data.frame(x = x, y = y)
+    nome_x <- colnames(x)[1]
+    nome_y <- colnames(x)[2]
+
+    dados <- data.frame(x = x[[1]], y = x[[2]])
+    x <- dados$x
+    y <- dados$y
+  } else {
+    # Vetores separados
+    if (is.null(y)) stop("Forneca dois vetores numericos ou um data frame com duas colunas.")
+    if (!is.numeric(x) || !is.numeric(y)) stop("Ambos os vetores devem ser numericos.")
+    if (length(x) != length(y)) stop("Os vetores devem ter o mesmo comprimento.")
+
+    nome_x <- deparse(substitute(x))
+    nome_y <- deparse(substitute(y))
+    dados <- data.frame(x = x, y = y)
+  }
+
   possui_empates <- anyDuplicated(x) > 0 || anyDuplicated(y) > 0
 
   # Teste de normalidade
@@ -126,11 +146,11 @@ Exemplo:
   # Grafico
   g <- ggplot2::ggplot(dados, ggplot2::aes(x = x, y = y)) +
     ggplot2::geom_point(alpha = 0.6, size = 2.5, color = "steelblue") +
-    if (metodo_usado == "pearson") {
+    (if (metodo_usado == "pearson") {
       ggplot2::geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed")
     } else {
       ggplot2::geom_smooth(method = "loess", se = FALSE, color = "black", linetype = "dotted")
-    } +
+    }) +
     ggplot2::theme_minimal(base_size = 13) +
     ggplot2::labs(
       title = paste("Correlacao de", tools::toTitleCase(metodo_usado)),
