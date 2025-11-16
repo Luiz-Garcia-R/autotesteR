@@ -1,6 +1,6 @@
 # R/globals.R
 
 if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c("grupo", "ind", "letra", "n", "p adj", "p.adj", "prop", "valor", "values"))
+  utils::globalVariables(c("grupo", "id", "ind", "letra", "n", "p adj", "p.adj", "P.adj", "p_adj", "prop", "valor", "values"))
 }
 

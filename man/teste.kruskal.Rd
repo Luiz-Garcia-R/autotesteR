@@ -9,6 +9,7 @@ teste.kruskal(
   titulo = "Kruskal-Wallis + Dunn",
   x = "Grupo",
   y = "Valor",
+  estilo = 1,
   ajuda = FALSE,
   verbose = TRUE
 )
@@ -21,6 +22,8 @@ teste.kruskal(
 \item{x}{Nome do eixo x (padrao = "Grupo")}
 
 \item{y}{Nome do eixo y (padrao = "Valor")}
+
+\item{estilo}{Estetica do plot gerado pela funcao.}
 
 \item{ajuda}{Se TRUE, exibe mensagem de ajuda}
 

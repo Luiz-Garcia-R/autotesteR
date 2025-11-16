@@ -8,6 +8,7 @@ teste.correlacao(
   x,
   y = NULL,
   metodo = "auto",
+  estilo = 1,
   ajuda = FALSE,
   verbose = TRUE,
   plot_normalidade = FALSE
@@ -19,6 +20,8 @@ teste.correlacao(
 \item{y}{Vetor numerico (opcional se x for data frame)}
 
 \item{metodo}{Metodo de correlacao: "auto" (padrao), "pearson", "spearman" ou "kendall"}
+
+\item{estilo}{Estetica do plot gerado pela funcao.}
 
 \item{ajuda}{Se TRUE, exibe explicacao detalhada da funcao}
 
@@ -35,11 +38,26 @@ entre Pearson, Spearman ou Kendall com base na normalidade, empates e outliers.
 Opcionalmente exibe graficos de diagnostico e grafico da correlacao com linha de tendencia.
 }
 \examples{
-x <- rnorm(30)
-y <- x + rnorm(30)
-teste.correlacao(x, y, plot_normalidade = TRUE)
+# Pearson
+set.seed(123)
+x <- rnorm(30, sd = 1)
+y <- x + rnorm(30, sd = 1)
+teste.correlacao(x, y)
 
-df <- data.frame(a = rnorm(30), b = rnorm(30))
-teste.correlacao(df)
+# Spearman
+set.seed(123)
+x <- runif(300)
+y <- log(x + 0.1) + rnorm(300, sd = 0.05)
+teste.correlacao(x, y)
+
+# Kendall
+set.seed(123)
+x  <- rnorm(200)
+y  <- x + rnorm(200, sd = 0.2)
+x_out <- runif(20, -10, 10)
+y_out <- runif(20, -10, 10)
+x <- c(x, x_out)
+y <- c(y, y_out)
+teste.correlacao(x, y)
 
 }

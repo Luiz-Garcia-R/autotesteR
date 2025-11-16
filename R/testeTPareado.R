@@ -1,122 +1,255 @@
-#' Teste t pareado
+#' Teste t pareado com visualizacoes avancadas
 #'
-#' Realiza o teste t pareado entre dois vetores numericos emparelhados (ex: antes e depois)
-#' e gera grafico com as medias, desvios padrao e anotacao de significancia.
+#' Realiza o teste t pareado entre dois vetores numericos (ex.: antes e depois)
+#' ou entre duas colunas numericas de um data frame.
+#' Inclui quatro estilos de visualizacao (boxplot, violino, monocromatico e half-eye).
 #'
-#' @param ... Dois vetores numericos com o mesmo comprimento (ex: antes, depois)
-#'            ou um data frame com exatamente duas colunas numericas
-#' @param titulo Titulo do grafico (default: "Teste t pareado")
-#' @param x Nome do eixo x (default: "Grupo")
-#' @param y Nome do eixo y (default: "Valor")
-#' @param ajuda Logico. Se TRUE, exibe explicacao detalhada da funcao (default: FALSE)
-#' @param verbose Se TRUE, imprime mensagens detalhadas (default = TRUE)
-#' @return Lista invisivel com: resumo (medias e desvios), resultado do t.test, grafico ggplot2
+#' @param ... Dois vetores numericos com mesmo comprimento, ou
+#'   um data frame com exatamente duas colunas numericas.
+#' @param titulo Titulo do grafico.
+#' @param xlab Rotulo do eixo x.
+#' @param ylab Rotulo do eixo y.
+#' @param estilo Estilo do grafico:
+#'   \itemize{
+#'     \item \code{1} Boxplot premium
+#'     \item \code{2} Violino + box minimalista
+#'     \item \code{3} Monocromatico
+#'     \item \code{4} Half-eye (ggdist)
+#'   }
+#' @param conectar Logico. Se TRUE, conecta pares (apenas teste pareado).
+#' @param ajuda Se TRUE, exibe explicacoes detalhadas.
+#' @param verbose Se TRUE, mostra mensagens de progresso.
+#'
+#' @return Lista invisivel contendo:
+#' \describe{
+#'   \item{resumo}{Medias e desvios-padrao dos grupos}
+#'   \item{resultado}{Objeto do teste t (stats::t.test)}
+#'   \item{dados}{Data frame usado no grafico}
+#'   \item{plot}{Objeto ggplot2}
+#' }
+#'
 #' @export
+#'
+#' @examples
+#' antes <- c(10, 12, 11, 13)
+#' depois <- c(9, 11, 10, 10)
+#' teste.tpareado(antes, depois)
+#'
+#' df <- data.frame(A = antes, B = depois)
+#' teste.tpareado(df, estilo = 3)
 
-teste.t.pareado <- function(..., titulo = "Teste t pareado", x = "Grupo", y = "Valor",
-                            ajuda = FALSE, verbose = TRUE) {
+teste.tpareado <- function(
+    ...,
+    titulo = "Teste t pareado",
+    xlab = "",
+    ylab = "Valor",
+    estilo = 1,
+    conectar = TRUE,
+    ajuda = FALSE,
+    verbose = TRUE
+) {
 
   args <- list(...)
 
-  # === Entrada via data.frame ===
-  if (length(args) == 1 && is.data.frame(args[[1]]) && ncol(args[[1]]) == 2) {
-    grupos <- lapply(args[[1]], function(col) col)
-    nomes <- colnames(args[[1]])
-  } else {
-    grupos <- args
-    nomes_raw <- as.character(match.call(expand.dots = FALSE)$...)
-    nomes <- sub("^.*\\$", "", nomes_raw)
-  }
-
-  # === Mensagem de ajuda ===
+  # ------------------------------
+  # Ajuda
+  # ------------------------------
   if (ajuda) {
-    if (verbose) {
-      message("
-Funcao teste.t.pareado()
-
-Descricao:
-  Realiza o teste t pareado para comparar dois conjuntos de medidas relacionadas.
-
-Quando usar:
-  - Comparar medidas antes e depois no mesmo individuo.
-  - Controlar variabilidade intra-individuo.
-  - Comparacao de dois grupos dependentes.
+    message(
+      "Funcao teste.tpareado()
 
 Entrada aceita:
-  - Dois vetores numericos do mesmo comprimento
-  - OU um data frame com exatamente duas colunas numericas
+ - Dois vetores numericos do mesmo comprimento
+ - Ou um data frame com duas colunas numericas
 
-Exemplo:
-  antes <- c(100, 105, 98, 102)
-  depois <- c(95, 100, 97, 99)
-  teste.t.pareado(antes, depois)
+# Exemplo 1
+antes <- c(10, 12, 11, 13)
+depois <- c(9, 11, 10, 10)
+teste.tpareado(antes, depois)
 
-  # ou
-  df <- data.frame(antes = c(100,105,98,102), depois = c(95,100,97,99))
-  teste.t.pareado(df)
-")
-    }
+# Exemplo 2
+df <- data.frame(A = antes, B = depois)
+teste.tpareado(df, estilo = 3)
+
+Retorno:
+ Lista com resumo, t.test, dados e grafico"
+    )
     return(invisible(NULL))
   }
 
-  # === Validacao ===
-  if (length(grupos) != 2 ||
-      !is.numeric(grupos[[1]]) || !is.numeric(grupos[[2]]) ||
-      length(grupos[[1]]) != length(grupos[[2]])) {
-    stop("Erro: forneca exatamente dois vetores numericos do mesmo comprimento ou um data frame com duas colunas numericas.")
+  # ------------------------------
+  # Input flexivel
+  # ------------------------------
+  if (length(args) == 1 && is.data.frame(args[[1]]) && ncol(args[[1]]) == 2) {
+    df <- args[[1]]
+    if (!all(sapply(df, is.numeric)))
+      stop("O data.frame deve ter exatamente duas colunas numericas.")
+    x <- df[[1]]
+    y <- df[[2]]
+    nomes <- colnames(df)
+  } else {
+    if (length(args) != 2)
+      stop("Forneca dois vetores numericos ou um data.frame com duas colunas.")
+
+    x <- args[[1]]
+    y <- args[[2]]
+
+    if (!is.numeric(x) || !is.numeric(y))
+      stop("Os dois vetores devem ser numericos.")
+
+    if (length(x) != length(y))
+      stop("Os vetores devem ter o mesmo comprimento (teste pareado).")
+
+    nomes <- as.character(match.call(expand.dots = FALSE)$...)[1:2]
   }
 
-  if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("O pacote ggplot2 nao esta instalado. Instale com install.packages('ggplot2')")
-  }
+  # Remover NA
+  ok <- complete.cases(x, y)
+  x <- x[ok]
+  y <- y[ok]
 
-  # === Dados ===
-  A <- grupos[[1]]
-  B <- grupos[[2]]
-  valores <- c(A, B)
-  grupo <- factor(rep(nomes, each = length(A)), levels = nomes)
-  dados <- data.frame(valor = valores, grupo = grupo)
+  if (length(x) < 3) stop("E necessario pelo menos 3 pares validos.")
 
-  # === Teste t pareado ===
-  resultado <- t.test(A, B, paired = TRUE)
-  pval <- resultado$p.value
+  # ------------------------------
+  # Resultados estatisticos
+  # ------------------------------
+  resultado <- stats::t.test(x, y, paired = TRUE)
+  p <- resultado$p.value
 
-  # === Resumo ===
+  p_label <- if (p < 0.001) "p < 0.001" else paste0("p = ", signif(p, 3))
+  signif_label <- if (p < 0.001) "***"
+  else if (p < 0.01) "**"
+  else if (p < 0.05) "*"
+  else ""
+
   resumo <- data.frame(
     Grupo = nomes,
-    Media = c(mean(A, na.rm = TRUE), mean(B, na.rm = TRUE)),
-    Desvio_Padrao = c(sd(A, na.rm = TRUE), sd(B, na.rm = TRUE))
+    Media = c(mean(x), mean(y)),
+    Desvio = c(sd(x), sd(y))
   )
 
-  p_label <- if (pval < 0.001) "p < 0.001" else paste0("p = ", signif(pval, 3))
-  signif_label <- if (pval < 0.001) "***" else if (pval < 0.01) "**" else if (pval < 0.05) "*" else ""
+  if (verbose) print(resumo)
 
-  if (verbose) {
-    sep <- paste0(rep("=", 50), collapse = "")
-    message("Resumo:")
-    message(sep)
-    print(resumo)
-    message(sep)
-    message("P-valor do teste t pareado: ", p_label)
+  # ------------------------------
+  # Data frame final
+  # ------------------------------
+  dados <- data.frame(
+    id = seq_along(x),
+    grupo = rep(nomes, each = length(x)),
+    valor = c(x, y)
+  )
+
+  y_pos <- max(dados$valor) * 1.08
+
+  # ------------------------------
+  # Camada opcional de linhas entre pares
+  # ------------------------------
+  camada_linhas <- function() {
+    if (!conectar) return(NULL)
+    ggplot2::geom_line(
+      data = dados,
+      ggplot2::aes(x = grupo, y = valor, group = id),
+      color = "gray40",
+      linewidth = 0.5,
+      alpha = 0.6
+    )
   }
 
-  # === Posicao da anotacao ===
-  y_pos <- max(valores, na.rm = TRUE) + 0.1 * diff(range(valores, na.rm = TRUE))
+  cores_vivas <- scales::hue_pal()(length(unique(dados$grupo)))
 
-  # === Grafico ===
-  g <- ggplot2::ggplot(dados, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
-    ggplot2::geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-    ggplot2::geom_jitter(width = 0.1, alpha = 0.5, color = "black") +
-    ggplot2::annotate("text", x = mean(1:2), y = y_pos, label = signif_label, size = 6) +
-    ggplot2::theme_minimal() +
-    ggplot2::scale_fill_brewer(palette = "Set2") +
-    ggplot2::theme(
-      legend.position = "none",
-      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
-    ) +
-    ggplot2::labs(title = titulo, subtitle = p_label, x = "", y = y)
+  # ------------------------------
+  # Estilos de grafico
+  # ------------------------------
+
+  # ---- ESTILO 1 ------------------------------------------------
+  if (estilo == 1) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(grupo, valor, fill = grupo)) +
+      ggplot2::geom_boxplot(alpha = .7, outlier.shape = NA) +
+      camada_linhas() +
+      ggplot2::geom_point(
+        position = ggplot2::position_jitter(width = .1),
+        alpha = .4
+      ) +
+      ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
+      ggplot2::scale_fill_manual(values = cores_vivas) +
+      ggplot2::theme_minimal(base_size = 14) +
+      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme(legend.position = "none",
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+  }
+
+
+  # ---- ESTILO 2 ------------------------------------------------
+  if (estilo == 2) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(grupo, valor, fill = grupo)) +
+      ggplot2::geom_violin(
+        trim = FALSE,
+        alpha = .4,
+        color = NA,
+        linewidth = .4,
+        adjust = .6
+      ) +
+      ggplot2::geom_boxplot(
+        width = .18,
+        outlier.shape = NA,
+        color = "gray20",
+        linewidth = .4
+      ) +
+      camada_linhas() +
+      ggplot2::geom_point(
+        position = ggplot2::position_jitter(width = .1),
+        alpha = .55, size = 1.8, color = "gray25"
+      ) +
+      ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
+      ggplot2::scale_fill_manual(values = cores_vivas) +
+      ggplot2::theme_minimal(base_size = 15) +
+      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme(
+        legend.position = "none",
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+      )
+  }
+
+  # ---- ESTILO 3 ------------------------------------------------
+  if (estilo == 3) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(grupo, valor)) +
+      ggplot2::geom_violin(fill = "gray85", color = NA) +
+      ggplot2::geom_boxplot(width = .18, fill = "white") +
+      camada_linhas() +
+      ggplot2::geom_point(
+        position = ggplot2::position_jitter(width = .1),
+        color = "gray20", alpha = .4
+      ) +
+      ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
+      ggplot2::theme_minimal(base_size = 14) +
+      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme(legend.position = "none",
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+  }
+
+  # ---- ESTILO 4 (ggdist) ---------------------------------------
+  if (estilo == 4) {
+    if (!requireNamespace("ggdist", quietly = TRUE))
+      stop("O pacote ggdist e necessario para estilo = 4.")
+
+    g <- ggplot2::ggplot(dados, ggplot2::aes(grupo, valor, fill = grupo)) +
+      ggdist::stat_halfeye(alpha = .6, adjust = .6) +
+      camada_linhas() +
+      ggplot2::geom_point(position = ggplot2::position_jitter(width = .1), alpha = .4) +
+      ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
+      ggplot2::scale_fill_manual(values = cores_vivas) +
+      ggplot2::theme_minimal(base_size = 15) +
+      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme(legend.position = "none",
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+  }
 
   print(g)
 
-  invisible(list(resumo = resumo, resultado = resultado, grafico = g))
+  invisible(list(
+    resumo = resumo,
+    resultado = resultado,
+    dados = dados,
+    plot = g
+  ))
 }

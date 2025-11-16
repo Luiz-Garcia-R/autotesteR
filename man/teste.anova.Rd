@@ -2,13 +2,14 @@
 % Please edit documentation in R/testeAnova.R
 \name{teste.anova}
 \alias{teste.anova}
-\title{Teste de ANOVA com checagem automática de pressupostos}
+\title{Teste de ANOVA com checagem automatica de pressupostos}
 \usage{
 teste.anova(
   ...,
   titulo = "ANOVA/Tukey HSD",
   x = "Eixo x",
   y = "Eixo y",
+  estilo = 1,
   ajuda = FALSE,
   verbose = TRUE
 )
@@ -16,22 +17,24 @@ teste.anova(
 \arguments{
 \item{...}{Vetores ou um data.frame com >= 2 colunas.}
 
-\item{titulo}{Título do gráfico.}
+\item{titulo}{Titulo do grafico.}
 
-\item{x}{Rótulo do eixo X.}
+\item{x}{Rotulo do eixo X.}
 
-\item{y}{Rótulo do eixo Y.}
+\item{y}{Rotulo do eixo Y.}
+
+\item{estilo}{Estetica do plot gerado pela funcao.}
 
 \item{ajuda}{Se TRUE, mostra a ajuda.}
 
 \item{verbose}{Se TRUE, mostra mensagens detalhadas.}
 }
 \value{
-Objeto \code{aov} ou mensagem de recomendação.
+Objeto \code{aov} ou mensagem de recomendacao.
 }
 \description{
 Realiza ANOVA (e Tukey HSD) se os dados atenderem aos pressupostos de normalidade e homogeneidade.
-Caso contrário, recomenda automaticamente o uso de Kruskal-Wallis/Dunn.
+Caso contrario, recomenda automaticamente o uso de Kruskal-Wallis/Dunn.
 }
 \examples{
 df <- data.frame(

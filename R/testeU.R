@@ -7,6 +7,7 @@
 #' @param titulo Titulo do grafico. Default: "Teste de Mann-Whitney".
 #' @param x Nome do eixo x no grafico. Default: "Grupo".
 #' @param y Nome do eixo y no grafico. Default: "Valor".
+#' @param estilo Estetica do plot gerado pela funcao.
 #' @param ajuda Logico. Se TRUE, exibe explicacao detalhada da funcao. Default: FALSE.
 #' @param verbose Se TRUE, imprime mensagens detalhadas. Default: TRUE.
 #' @importFrom stats median
@@ -26,8 +27,9 @@
 #'
 #' dados <- data.frame(grupoA = x, grupoB = y)
 #' teste.u(dados)
+
 teste.u <- function(..., titulo = "Teste de Mann-Whitney", x = "Grupo", y = "Valor",
-                    ajuda = FALSE, verbose = TRUE) {
+                    estilo = 1, ajuda = FALSE, verbose = TRUE) {
 
   grupos <- list(...)
 
@@ -121,23 +123,127 @@ Exemplos:
   # === Posicao da anotacao ===
   y_pos <- max(valores, na.rm = TRUE) + 0.1 * diff(range(valores, na.rm = TRUE))
 
-  # === Grafico ===
-  g <- ggplot2::ggplot(dados, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
-    ggplot2::geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-    ggplot2::geom_jitter(width = 0.1, alpha = 0.5, color = "black") +
-    ggplot2::annotate("text", x = mean(1:2), y = y_pos, label = signif_label, size = 6) +
-    ggplot2::theme_minimal() +
-    ggplot2::scale_fill_brewer(palette = "Set2") +
-    ggplot2::theme(
-      legend.position = "none",
-      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
-    ) +
-    ggplot2::labs(
-      title = titulo,
-      subtitle = p_label,
-      x = "",
-      y = y
-    )
+  cores_vivas <- scales::hue_pal()(length(unique(dados$grupo)))
+
+  # --------------------------
+  # ESTILO 1 (boxplot + jitter)
+  # --------------------------
+  if (estilo == 1) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
+      ggplot2::geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+      ggplot2::geom_jitter(width = 0.1, alpha = 0.4, color = "black") +
+      ggplot2::annotate("text", x = mean(1:2), y = y_pos, label = signif_label, size = 6) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::scale_fill_brewer(palette = "Set1") +
+      ggplot2::labs(
+        title = titulo,
+        subtitle = p_label, x = "", y = y
+      ) +
+      ggplot2::theme(
+        legend.position = "none",
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+      )
+  }
+
+  # --------------------------
+  # ESTILO 2 (violin clean + boxplot minimalista)
+  # --------------------------
+  if (estilo == 2) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
+      ggplot2::geom_violin(
+        trim = FALSE,
+        alpha = .55,
+        color = NA,
+        adjust = .6
+      ) +
+      ggplot2::geom_boxplot(
+        width = .18,
+        outlier.shape = NA,
+        color = "gray20",
+        linewidth = .4
+      ) +
+      ggplot2::geom_point(
+        position = ggplot2::position_jitter(width = .1),
+        alpha = .4,
+        size = 1.8,
+        color = "gray25"
+      ) +
+      ggplot2::annotate(
+        "text",
+        x = mean(1:2),
+        y = y_pos,
+        label = signif_label,
+        size = 7
+      ) +
+      ggplot2::scale_fill_manual(values = cores_vivas) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::labs(
+        title = titulo,
+        subtitle = p_label,
+        x = "",
+        y = y
+      ) +
+      ggplot2::theme(
+        legend.position = "none",
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+      )
+  }
+
+
+  # --------------------------
+  # ESTILO 3 (monocromático premium)
+  # --------------------------
+  if (estilo == 3) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(grupo, valor)) +
+      ggplot2::geom_violin(fill = "gray85", color = NA) +
+      ggplot2::geom_boxplot(width = .18, fill = "white") +
+      ggplot2::geom_point(
+        position = ggplot2::position_jitter(width = .1),
+        color = "gray20", alpha = .4
+      ) +
+      ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::labs(title = titulo, subtitle = p_label, x = NULL, y = y) +
+      ggplot2::theme(legend.position = "none",
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+  }
+
+  # --------------------------
+  # ESTILO 4 (ggdist half-eye + median point)
+  # --------------------------
+  if (estilo == 4) {
+    g <- ggplot2::ggplot(dados, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
+      ggdist::stat_halfeye(
+        adjust = 0.6,
+        width = 0.6,
+        .width = c(0.5, 0.8, 0.95),
+        justification = -0.2,
+        slab_color = "gray20",
+        interval_color = "gray20"
+      ) +
+      ggplot2::geom_point(
+        position = ggplot2::position_nudge(x = 0.15),
+        size = 1.1, alpha = 0.4, color = "black"
+      ) +
+      ggdist::stat_pointinterval(
+        position = ggplot2::position_nudge(x = 0.2),
+        point_color = "black",
+        interval_color = "black",
+        .width = 0.95
+      ) +
+      ggplot2::annotate("text", x = mean(1:2), y = y_pos,
+                        label = signif_label, size = 6, fontface = "bold") +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::scale_fill_brewer(palette = "Set1") +
+      ggplot2::labs(
+        title = titulo,
+        subtitle = p_label, x = "", y = y
+      ) +
+      ggplot2::theme(
+        legend.position = "none",
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+      )
+  }
 
   print(g)
 

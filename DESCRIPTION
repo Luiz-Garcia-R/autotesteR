@@ -1,6 +1,6 @@
 Package: autotesteR
 Title: Automated Functions for Basic Statistical Tests
-Version: 0.1.9
+Version: 0.1.10
 Authors@R: 
     person("Luiz", "Garcia", 
            email = "luiz.cardoso@ufpr.br", 
@@ -23,9 +23,16 @@ Imports:
     dplyr,
     FSA,
     ggplot2,
+    ggdist,
+    ggExtra,
     multcompView,
     nortest,
+    purrr,
+    RColorBrewer,
+    scales,
     stats,
+    tibble,
     tidyr,
     tidyselect,
-    utils
+    utils,
+    vcd
