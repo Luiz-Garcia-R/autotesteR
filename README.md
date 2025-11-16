@@ -22,9 +22,11 @@ devtools::install_github("https://github.com/Luiz-Garcia-R/autotestR.git")
 
 - Teste t (independente e pareado)
 - Teste de Mann-Whitney (U de Wilcoxon)
+- Teste t múltiplo (Teste t ou Mann-Whitney)
 - Teste qui-quadrado e teste exato de Fisher
 - ANOVA com pós-teste de Tukey HSD
-- Teste de correlação de Pearson e Spearman com gráfico automático
+- Kruskal Wallis com pós-teste de Dunn
+- Teste de correlação de Pearson, Spearman e Kendall com gráfico automático
 - Função diagnóstica que sugere o teste estatístico mais adequado
 - Gráficos intuitivos já integrados nas funções
 
@@ -43,6 +45,15 @@ teste.t(grupo1, grupo2)
 var1 <- sample(c("A", "B"), 100, replace = TRUE)
 var2 <- sample(c("Sim", "Não"), 100, replace = TRUE)
 teste.qui(var1, var2)
+
+# Teste múltiplo (Teste t ou Mann-Whitney)
+df <- data.frame(
+controle   = rnorm(30, 10),
+tratamento = rnorm(30, 12),
+teste1     = rnorm(30, 11),
+teste2     = rnorm(30, 15)
+)
+teste.tmulti(df)
 
 # ANOVA com pós-teste
 g1 <- rnorm(20, 5)

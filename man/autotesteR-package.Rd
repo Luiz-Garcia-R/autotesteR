@@ -16,7 +16,7 @@ As funções atualmente disponíveis incluem:
 \itemize{
   \item \code{\link{pre.teste}} — sugere automaticamente o teste mais apropriado para os dados;
   \item \code{\link{teste.t}} — teste t de Student para dois grupos independentes;
-  \item \code{\link{teste.t.pareado}} — teste t pareado para medidas repetidas;
+  \item \code{\link{teste.tpareado}} — teste t pareado para medidas repetidas;
   \item \code{\link{teste.u}} — teste de Mann-Whitney para comparação não paramétrica entre dois grupos;
   \item \code{\link{teste.anova}} — ANOVA de uma via para mais de dois grupos;
   \item \code{\link{teste.kruskal}} — teste de Kruskal-Wallis (alternativa não paramétrica à ANOVA);
@@ -33,7 +33,7 @@ Luiz Fernando Cardoso Garcia \email{luiz.cardoso@ufpr.br}
 \seealso{
 \code{\link{pre.teste}},
 \code{\link{teste.t}},
-\code{\link{teste.t.pareado}},
+\code{\link{teste.tpareado}},
 \code{\link{teste.u}},
 \code{\link{teste.anova}},
 \code{\link{teste.kruskal}},

@@ -10,6 +10,7 @@ teste.fisher(
   titulo = "Teste Exato de Fisher",
   x = NULL,
   y = "Proporcao",
+  estilo = 1,
   mostrar_tabela = TRUE,
   ajuda = FALSE,
   verbose = TRUE
@@ -25,6 +26,8 @@ teste.fisher(
 \item{x}{Nome do eixo x no grafico (string). Default: NULL (usa nome da variavel)}
 
 \item{y}{Nome do eixo y no grafico (string). Default: "Proporcao"}
+
+\item{estilo}{Estetica do plot gerado pela funcao.}
 
 \item{mostrar_tabela}{Logico. Se TRUE, exibe a tabela de contingencia no console. Default: TRUE}
 

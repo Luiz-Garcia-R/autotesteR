@@ -9,6 +9,7 @@ teste.u(
   titulo = "Teste de Mann-Whitney",
   x = "Grupo",
   y = "Valor",
+  estilo = 1,
   ajuda = FALSE,
   verbose = TRUE
 )
@@ -21,6 +22,8 @@ teste.u(
 \item{x}{Nome do eixo x no grafico. Default: "Grupo".}
 
 \item{y}{Nome do eixo y no grafico. Default: "Valor".}
+
+\item{estilo}{Estetica do plot gerado pela funcao.}
 
 \item{ajuda}{Logico. Se TRUE, exibe explicacao detalhada da funcao. Default: FALSE.}
 

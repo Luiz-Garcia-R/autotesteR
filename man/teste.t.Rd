@@ -10,7 +10,8 @@ teste.t(
   x = "Grupo",
   y = "Valor",
   ajuda = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  estilo = 1
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ teste.t(
 \item{ajuda}{Logico. Se TRUE, mostra explicacao detalhada da funcao. Default: FALSE.}
 
 \item{verbose}{Se TRUE, imprime mensagens detalhadas. Default: TRUE.}
+
+\item{estilo}{Estetica do plot gerado pela funcao.}
 }
 \value{
 Lista invisivel com resumo, resultado do teste, metodo e (opcionalmente) grafico.

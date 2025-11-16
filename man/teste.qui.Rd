@@ -10,6 +10,7 @@ teste.qui(
   titulo = "Teste Qui-Quadrado",
   x = NULL,
   y = "Proporcao",
+  estilo = 1,
   mostrar_tabela = TRUE,
   ajuda = FALSE,
   verbose = TRUE
@@ -26,6 +27,8 @@ teste.qui(
 
 \item{y}{Rotulo do eixo y no grafico (string). Default: "Proporcao".}
 
+\item{estilo}{Estetica do plot gerado pela funcao.}
+
 \item{mostrar_tabela}{Logico. Se TRUE, exibe a tabela de contingencia no console. Default: TRUE.}
 
 \item{ajuda}{Logico. Se TRUE, exibe explicacao detalhada da funcao. Default: FALSE.}
@@ -39,11 +42,8 @@ Resultado do teste e tabela de contingencia.
 Aplica o teste qui-quadrado ou Fisher para associacao entre duas variaveis categoricas.
 }
 \examples{
-Grupo_Pacientes <- c(rep('A', 48), rep('B', 24))
-Doente <- c(rep('A', 36), rep('B', 12), rep('A', 12), rep('B', 12))
-teste.qui(Grupo_Pacientes, Doente)
 
-dados <- data.frame(controle = c("saudavel","saudavel","doente","doente","doente"),
-                    tratamento = c("saudavel","saudavel","saudavel","saudavel","doente"))
+dados <- data.frame(controle = c(rep('saudavel', 50), rep('doente', 150)),
+                    tratamento = c(rep('saudavel', 100), rep('doente', 100)))
 teste.qui(dados)
 }
