@@ -18,22 +18,24 @@
 #' @examples
 #' # Pearson
 #' set.seed(123)
-#' x <- rnorm(30, sd = 1)
-#' y <- x + rnorm(30, sd = 1)
+#' x <- rnorm(50, sd = 0.1)
+#' y <- x + rnorm(50, sd = 0.1)
 #' teste.correlacao(x, y)
 #'
 #' # Spearman
 #' set.seed(123)
 #' x <- runif(300)
-#' y <- log(x + 0.1) + rnorm(300, sd = 0.05)
+#' y <- log(x + 0.1) + rnorm(300, sd = 0.5)
 #' teste.correlacao(x, y)
 #'
 #' # Kendall
 #' set.seed(123)
-#' x  <- rnorm(200)
-#' y  <- x + rnorm(200, sd = 0.2)
-#' x_out <- runif(20, -10, 10)
-#' y_out <- runif(20, -10, 10)
+#' x <- runif(1000, 1, 100)
+#' y <- sin(x) * 30 + rnorm(1000, 0, 10)
+#' x[sample(1:500, 50)] <- 50
+#' y[sample(1:500, 50)] <- 0
+#' x_out <- runif(100, 10, 20)
+#' y_out <- runif(100, 80, 120)
 #' x <- c(x, x_out)
 #' y <- c(y, y_out)
 #' teste.correlacao(x, y)
@@ -65,22 +67,24 @@ Exemplo:
 
 # Pearson
   set.seed(123)
-  x <- rnorm(30, sd = 1)
-  y <- x + rnorm(30, sd = 1)
+  x <- rnorm(50, sd = 0.1)
+  y <- x + rnorm(50, sd = 0.1)
   teste.correlacao(x, y)
 
 # Spearman
   set.seed(123)
   x <- runif(300)
-  y <- log(x + 0.1) + rnorm(300, sd = 0.05)
+  y <- log(x + 0.1) + rnorm(300, sd = 0.5)
   teste.correlacao(x, y)
 
 # Kendall
   set.seed(123)
-  x  <- rnorm(200)
-  y  <- x + rnorm(200, sd = 0.2)
-  x_out <- runif(20, -10, 10)
-  y_out <- runif(20, -10, 10)
+  x <- runif(1000, 1, 100)
+  y <- sin(x) * 30 + rnorm(1000, 0, 10)
+  x[sample(1:500, 50)] <- 50
+  y[sample(1:500, 50)] <- 0
+  x_out <- runif(100, 10, 20)
+  y_out <- runif(100, 80, 120)
   x <- c(x, x_out)
   y <- c(y, y_out)
   teste.correlacao(x, y)
@@ -180,8 +184,6 @@ Exemplo:
         if (out_total > 0.05) message(sprintf("- Presenca de outliers detectada: %.1f%%",
                                               out_total * 100))
       }
-      if (possui_empates) message("- Foram encontrados empates nos dados")
-      if (out_total > 0.05) message(sprintf("- Presenca de outliers detectada: %.1f%%", out_total * 100))
 
     # teste estatistico
     teste <- stats::cor.test(dados$x, dados$y, method = metodo_usado)
@@ -213,7 +215,7 @@ Exemplo:
         ggplot2::geom_point(alpha = 0.45, size = 2) +
         ggplot2::geom_density_2d(color = "grey30", alpha = 0.7) +
         ggplot2::geom_smooth(method = smooth_method, se = FALSE) +
-        ggplot2::theme_minimal(base_size = 13) +
+        ggplot2::theme_minimal(base_size = 12) +
         ggplot2::labs(title = paste("Correlacao de", tools::toTitleCase(metodo_usado)),
                       subtitle = subtitulo, x = nome_x, y = nome_y)
     } else if (estilo == 3) {
@@ -225,7 +227,7 @@ Exemplo:
           name = "Densidade"
         ) +
         ggplot2::geom_smooth(method = smooth_method, se = FALSE, color = "white") +
-        ggplot2::theme_minimal(base_size = 13) +
+        ggplot2::theme_minimal(base_size = 12) +
         ggplot2::labs(
           title = paste("Correlacao de", tools::toTitleCase(metodo_usado)),
           subtitle = subtitulo, x = nome_x, y = nome_y
@@ -238,14 +240,14 @@ Exemplo:
         g <- ggplot2::ggplot(dados, ggplot2::aes(x = x, y = y)) +
           ggplot2::geom_point(alpha = 0.65, size = 2.5) +
           ggplot2::geom_smooth(method = smooth_method, se = FALSE, linetype = "dashed") +
-          ggplot2::theme_minimal(base_size = 13) +
+          ggplot2::theme_minimal(base_size = 12) +
           ggplot2::labs(title = paste("Correlacao de", tools::toTitleCase(metodo_usado)),
                         subtitle = subtitulo, x = nome_x, y = nome_y)
       } else {
         p_base <- ggplot2::ggplot(dados, ggplot2::aes(x = x, y = y)) +
           ggplot2::geom_point(alpha = 0.6, size = 2, col = "grey30") +
           ggplot2::geom_smooth(method = smooth_method, se = FALSE) +
-          ggplot2::theme_minimal(base_size = 13) +
+          ggplot2::theme_minimal(base_size = 12) +
           ggplot2::labs(title = paste("Correlacao de", tools::toTitleCase(metodo_usado)),
                         subtitle = subtitulo, x = nome_x, y = nome_y)
         g <- ggExtra::ggMarginal(p_base, type = "density", size = 5, fill = "#c8d3e0")

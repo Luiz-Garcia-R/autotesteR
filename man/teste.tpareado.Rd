@@ -54,7 +54,7 @@ ou entre duas colunas numericas de um data frame.
 Inclui quatro estilos de visualizacao (boxplot, violino, monocromatico e half-eye).
 }
 \examples{
-antes <- c(10, 12, 11, 13)
+antes <- c(13, 12, 15, 14)
 depois <- c(9, 11, 10, 10)
 teste.tpareado(antes, depois)
 

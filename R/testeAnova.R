@@ -144,7 +144,7 @@ teste.anova(df)
   # calcular posicao vertical para cada letra
   max_df <- aggregate(valor ~ grupo, data = dados, max)
   letras_df <- merge(letras_df, max_df, by = "grupo")
-  letras_df$valor <- letras_df$valor * 1.05
+  letras_df$valor <- letras_df$valor + 0.2 * max(letras_df$valor, na.rm = TRUE)
 
   # Medias e desvios
   medias_dp <- aggregate(valor ~ grupo, data = dados,
@@ -195,7 +195,7 @@ teste.anova(df)
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   if (estilo == 2) {
@@ -209,7 +209,7 @@ teste.anova(df)
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   if (estilo == 3) {
@@ -220,9 +220,9 @@ teste.anova(df)
       ggplot2::geom_text(data = letras_df, ggplot2::aes(x = grupo, y = valor, label = letra),
                          size = 4, vjust = 0) +
       ggplot2::labs(title = titulo, subtitle = p_label, x = "", y = y) +
-      ggplot2::theme_minimal() +
+      ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   if (estilo == 4) {
@@ -238,12 +238,13 @@ teste.anova(df)
       ggplot2::geom_text(data = letras_df, ggplot2::aes(x = grupo, y = valor, label = letra),
                          size = 4, vjust = 0) +
       ggplot2::labs(title = titulo, subtitle = p_label, x = "", y = y) +
-      ggplot2::theme_minimal() +
+      ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   print(g)
+
   return(invisible(list(
     tipo = "ANOVA",
     p_anova = p_anova,

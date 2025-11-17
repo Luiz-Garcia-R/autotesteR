@@ -129,7 +129,7 @@ Diferenca entre Fisher e Qui-quadrado:
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(
         legend.position = "right",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -149,7 +149,7 @@ Diferenca entre Fisher e Qui-quadrado:
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(
         legend.position = "right",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -189,7 +189,10 @@ Diferenca entre Fisher e Qui-quadrado:
       ggplot2::theme_void(base_size = 12) +
       ggplot2::theme(
         strip.text = ggplot2::element_text(size = 12),
-        plot.title = ggplot2::element_text(hjust = 0.5)
+        plot.title = ggplot2::element_text(
+          hjust = 0.5,
+          margin = ggplot2::margin(b = 25)
+        )
       )
   }
 

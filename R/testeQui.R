@@ -39,8 +39,13 @@ Quando usar:
   - Frequencias esperadas nas celulas devem ser >= 5
 
 Limitacoes:
-  - Nao recomendado para tabelas pequenas; use 'teste.fisher()' nesses casos."
-      )
+  - Nao recomendado para tabelas pequenas; use 'teste.fisher()' nesses casos.
+
+Exemplo:
+  dados <- data.frame(controle = c(rep('saudavel', 50), rep('doente', 150)),
+  tratamento = c(rep('saudavel', 100), rep('doente', 100)))
+  teste.qui(dados)
+")
     }
     return(invisible(NULL))
   }
@@ -135,7 +140,7 @@ Limitacoes:
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(
         legend.position = "right",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -155,7 +160,7 @@ Limitacoes:
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(
         legend.position = "right",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -195,7 +200,10 @@ Limitacoes:
       ggplot2::theme_void(base_size = 12) +
       ggplot2::theme(
         strip.text = ggplot2::element_text(size = 12),
-        plot.title = ggplot2::element_text(hjust = 0.5)
+        plot.title = ggplot2::element_text(
+          hjust = 0.5,
+          margin = ggplot2::margin(b = 25)
+        )
       )
   }
 

@@ -113,7 +113,7 @@ Exemplo:
   # Ajuste da posicao das letras
   maximos <- aggregate(valor ~ grupo, data = dados, max)
   letras_df <- merge(maximos, letras_df, by = "grupo")
-  letras_df$valor <- letras_df$valor + 0.05 * max(letras_df$valor, na.rm = TRUE)
+  letras_df$valor <- letras_df$valor + 0.2 * max(letras_df$valor, na.rm = TRUE)
 
   # --- Preparacao de labels e cores ---
   y_pos <- max(dados$valor, na.rm = TRUE) + 0.1 * diff(range(dados$valor))
@@ -133,7 +133,7 @@ Exemplo:
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   # --------------------------
@@ -150,7 +150,7 @@ Exemplo:
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   # --------------------------
@@ -164,9 +164,9 @@ Exemplo:
       ggplot2::geom_text(data = letras_df, ggplot2::aes(x = grupo, y = valor, label = letra),
                          size = 4, vjust = 0) +
       ggplot2::labs(title = titulo, subtitle = p_label, x = "", y = y) +
-      ggplot2::theme_minimal() +
+      ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   # --------------------------
@@ -185,9 +185,9 @@ Exemplo:
       ggplot2::geom_text(data = letras_df, ggplot2::aes(x = grupo, y = valor, label = letra),
                          size = 4, vjust = 0) +
       ggplot2::labs(title = titulo, subtitle = p_label, x = "", y = y) +
-      ggplot2::theme_minimal() +
+      ggplot2::theme_minimal(base_size = 12) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   print(g)

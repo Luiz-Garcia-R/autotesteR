@@ -31,7 +31,7 @@
 #' @export
 #'
 #' @examples
-#' antes <- c(10, 12, 11, 13)
+#' antes <- c(13, 12, 15, 14)
 #' depois <- c(9, 11, 10, 10)
 #' teste.tpareado(antes, depois)
 #'
@@ -63,7 +63,7 @@ Entrada aceita:
  - Ou um data frame com duas colunas numericas
 
 # Exemplo 1
-antes <- c(10, 12, 11, 13)
+antes <- c(13, 12, 15, 14)
 depois <- c(9, 11, 10, 10)
 teste.tpareado(antes, depois)
 
@@ -172,10 +172,10 @@ Retorno:
       ) +
       ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
       ggplot2::scale_fill_manual(values = cores_vivas) +
-      ggplot2::theme_minimal(base_size = 14) +
-      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::labs(title = titulo, subtitle = paste0("Teste t pareado",": ", p_label), x = "", y = ylab) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
 
@@ -202,11 +202,11 @@ Retorno:
       ) +
       ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
       ggplot2::scale_fill_manual(values = cores_vivas) +
-      ggplot2::theme_minimal(base_size = 15) +
-      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::labs(title = titulo, subtitle = paste0("Teste t pareado",": ", p_label), x = "", y = ylab) +
       ggplot2::theme(
         legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -221,10 +221,10 @@ Retorno:
         color = "gray20", alpha = .4
       ) +
       ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
-      ggplot2::theme_minimal(base_size = 14) +
-      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::labs(title = titulo, subtitle = paste0("Teste t pareado",": ", p_label), x = "", y = ylab) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   # ---- ESTILO 4 (ggdist) ---------------------------------------
@@ -238,10 +238,10 @@ Retorno:
       ggplot2::geom_point(position = ggplot2::position_jitter(width = .1), alpha = .4) +
       ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
       ggplot2::scale_fill_manual(values = cores_vivas) +
-      ggplot2::theme_minimal(base_size = 15) +
-      ggplot2::labs(title = titulo, subtitle = p_label, x = xlab, y = ylab) +
+      ggplot2::theme_minimal(base_size = 12) +
+      ggplot2::labs(title = titulo, subtitle = paste0("Teste t pareado",": ", p_label), x = "", y = ylab) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   print(g)

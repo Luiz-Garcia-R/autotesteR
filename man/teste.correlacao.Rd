@@ -40,22 +40,24 @@ Opcionalmente exibe graficos de diagnostico e grafico da correlacao com linha de
 \examples{
 # Pearson
 set.seed(123)
-x <- rnorm(30, sd = 1)
-y <- x + rnorm(30, sd = 1)
+x <- rnorm(50, sd = 0.1)
+y <- x + rnorm(50, sd = 0.1)
 teste.correlacao(x, y)
 
 # Spearman
 set.seed(123)
 x <- runif(300)
-y <- log(x + 0.1) + rnorm(300, sd = 0.05)
+y <- log(x + 0.1) + rnorm(300, sd = 0.5)
 teste.correlacao(x, y)
 
 # Kendall
 set.seed(123)
-x  <- rnorm(200)
-y  <- x + rnorm(200, sd = 0.2)
-x_out <- runif(20, -10, 10)
-y_out <- runif(20, -10, 10)
+x <- runif(1000, 1, 100)
+y <- sin(x) * 30 + rnorm(1000, 0, 10)
+x[sample(1:500, 50)] <- 50
+y[sample(1:500, 50)] <- 0
+x_out <- runif(100, 10, 20)
+y_out <- runif(100, 80, 120)
 x <- c(x, x_out)
 y <- c(y, y_out)
 teste.correlacao(x, y)

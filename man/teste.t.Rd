@@ -39,9 +39,10 @@ Caso os pressupostos nao sejam atendidos, o teste de Mann-Whitney e aplicado
 automaticamente (sem gerar grafico).
 }
 \examples{
+set.seed(123)
 df <- data.frame(
   controle = rnorm(30, 10),
-  tratamento = rnorm(30, 12)
+  tratamento = rnorm(30, 15)
 )
 teste.t(df)
 }

@@ -16,9 +16,10 @@
 #' @export
 #'
 #' @examples
+#' set.seed(123)
 #' df <- data.frame(
 #'   controle = rnorm(30, 10),
-#'   tratamento = rnorm(30, 12)
+#'   tratamento = rnorm(30, 15)
 #' )
 #' teste.t(df)
 teste.t <- function(..., titulo = "Teste t", x = "Grupo", y = "Valor",
@@ -44,9 +45,10 @@ Pode receber:
   - Um data frame com exatamente duas colunas numericas.
 
 Exemplo:
+  set.seed(123)
   df <- data.frame(
     controle = rnorm(30, 10),
-    tratamento = rnorm(30, 12)
+    tratamento = rnorm(30, 15)
   )
   teste.t(df)
 ")
@@ -106,7 +108,7 @@ Exemplo:
     gera_plot <- TRUE
   } else {
     resultado <- stats::wilcox.test(grupos[[1]], grupos[[2]])
-    metodo <- "Mann-Whitney (aplicado por violacao dos pressupostos)"
+    metodo <- "Mann-Whitney"
     gera_plot <- FALSE
   }
 
@@ -142,15 +144,15 @@ Exemplo:
         ggplot2::geom_boxplot(alpha = 0.7, outlier.shape = NA) +
         ggplot2::geom_jitter(width = 0.1, alpha = 0.4, color = "black") +
         ggplot2::annotate("text", x = mean(1:2), y = y_pos, label = signif_label, size = 6) +
-        ggplot2::theme_minimal() +
+        ggplot2::theme_minimal(base_size = 12) +
         ggplot2::scale_fill_brewer(palette = "Set1") +
         ggplot2::labs(
-          title = paste0(titulo, " (", metodo, ")"),
-          subtitle = p_label, x = "", y = y
+          title = titulo,
+          subtitle = paste0(metodo,": ", p_label), x = "", y = y
         ) +
         ggplot2::theme(
           legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
         )
     }
 
@@ -185,22 +187,19 @@ Exemplo:
           size = 7
         ) +
         ggplot2::scale_fill_manual(values = cores_vivas) +
-        ggplot2::theme_minimal(base_size = 15) +
+        ggplot2::theme_minimal(base_size = 12) +
         ggplot2::labs(
-          title = paste0(titulo, " (", metodo, ")"),
-          subtitle = p_label,
-          x = "",
-          y = y
-        ) +
+          title = titulo,
+          subtitle = paste0(metodo,": ", p_label), x = "", y = y) +
         ggplot2::theme(
           legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
         )
     }
 
 
     # --------------------------
-    # ESTILO 3 (monocromático premium)
+    # ESTILO 3 (monocromatico premium)
     # --------------------------
     if (estilo == 3) {
       g <- ggplot2::ggplot(dados, ggplot2::aes(grupo, valor)) +
@@ -211,10 +210,10 @@ Exemplo:
           color = "gray20", alpha = .4
         ) +
         ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
-        ggplot2::theme_minimal(base_size = 14) +
-        ggplot2::labs(title = titulo, subtitle = p_label, x = NULL, y = y) +
+        ggplot2::theme_minimal(base_size = 12) +
+        ggplot2::labs(title = titulo, subtitle = paste0(metodo,": ", p_label), x = "", y = y) +
         ggplot2::theme(legend.position = "none",
-                       axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                       axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
     }
 
     # --------------------------
@@ -242,15 +241,15 @@ Exemplo:
         ) +
         ggplot2::annotate("text", x = mean(1:2), y = y_pos,
                           label = signif_label, size = 6, fontface = "bold") +
-        ggplot2::theme_minimal(base_size = 15) +
+        ggplot2::theme_minimal(base_size = 12) +
         ggplot2::scale_fill_brewer(palette = "Set1") +
         ggplot2::labs(
-          title = paste0(titulo, " (", metodo, ")"),
-          subtitle = p_label, x = "", y = y
+          title = titulo,
+          subtitle = paste0(metodo,": ", p_label), x = "", y = y
         ) +
         ggplot2::theme(
           legend.position = "none",
-          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
         )
     }
 

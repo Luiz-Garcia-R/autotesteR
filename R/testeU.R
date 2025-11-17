@@ -136,12 +136,10 @@ Exemplos:
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::scale_fill_brewer(palette = "Set1") +
       ggplot2::labs(
-        title = titulo,
-        subtitle = p_label, x = "", y = y
-      ) +
+        title = titulo, subtitle = paste0("Mann-Whitney: ", p_label), x = "", y = y) +
       ggplot2::theme(
         legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -178,14 +176,10 @@ Exemplos:
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::labs(
-        title = titulo,
-        subtitle = p_label,
-        x = "",
-        y = y
-      ) +
+        title = titulo, subtitle = paste0("Mann-Whitney: ", p_label), x = "", y = y) +
       ggplot2::theme(
         legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -203,9 +197,9 @@ Exemplos:
       ) +
       ggplot2::annotate("text", x = 1.5, y = y_pos, label = signif_label, size = 7) +
       ggplot2::theme_minimal(base_size = 12) +
-      ggplot2::labs(title = titulo, subtitle = p_label, x = NULL, y = y) +
+      ggplot2::labs(title = titulo, subtitle = paste0("Mann-Whitney: ", p_label), x = "", y = y) +
       ggplot2::theme(legend.position = "none",
-                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+                     axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   }
 
   # --------------------------
@@ -237,11 +231,11 @@ Exemplos:
       ggplot2::scale_fill_brewer(palette = "Set1") +
       ggplot2::labs(
         title = titulo,
-        subtitle = p_label, x = "", y = y
+        subtitle = paste0("Mann-Whitney: ", p_label), x = "", y = y
       ) +
       ggplot2::theme(
         legend.position = "none",
-        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+        axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12)
       )
   }
 
@@ -249,3 +243,5 @@ Exemplos:
 
   invisible(list(resumo = resumo, resultado = resultado, grafico = g))
 }
+
+

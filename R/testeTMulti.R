@@ -84,7 +84,7 @@ Exemplo:
 
   teste.tmulti(df,
   comparacoes = list(c('controle', 'tratamento'),
-  c('tratamento', 'teste1'))
+  c('tratamento', 'teste1')))
 ")
     return(invisible(NULL))
   }
@@ -235,7 +235,7 @@ Exemplo:
   }
 
   # ------------------------------
-  # rodar testes (seguro)
+  # rodar testes
   # ------------------------------
   resultados <- purrr::map_dfr(comparacoes, testar_par)
 
@@ -304,7 +304,7 @@ Exemplo:
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::labs(title = titulo, x = x, y = y) +
-      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   } else if (estilo == 2) {
     g <- ggplot2::ggplot(dados_long, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
       ggplot2::geom_violin(trim = FALSE, alpha = 0.55, color = NA, adjust = 0.6) +
@@ -313,7 +313,7 @@ Exemplo:
       ggplot2::scale_fill_manual(values = cores_vivas) +
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::labs(title = titulo, x = "", y = y) +
-      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   } else if (estilo == 3) {
     g <- ggplot2::ggplot(dados_long, ggplot2::aes(x = grupo, y = valor)) +
       ggplot2::geom_violin(fill = "gray90", color = NA) +
@@ -321,7 +321,7 @@ Exemplo:
       ggplot2::geom_point(position = ggplot2::position_jitter(width = 0.12), color = "gray20", alpha = 0.45, size = 1.6) +
       ggplot2::theme_minimal(base_size = 12) +
       ggplot2::labs(title = titulo, x = "", y = y) +
-      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+      ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
   } else if (estilo == 4) {
     if (!tem_ggdist) {
       warning("Pacote 'ggdist' nao encontrado - estilo 4 requer 'ggdist'. Usando estilo 1 como fallback.")
@@ -331,7 +331,7 @@ Exemplo:
         ggplot2::scale_fill_manual(values = cores_vivas) +
         ggplot2::theme_minimal(base_size = 12) +
         ggplot2::labs(title = titulo, x = "", y = y) +
-        ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+        ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
     } else {
       # ggdist half-eye style
       g <- ggplot2::ggplot(dados_long, ggplot2::aes(x = grupo, y = valor, fill = grupo)) +
@@ -341,7 +341,7 @@ Exemplo:
         ggdist::stat_pointinterval(position = ggplot2::position_nudge(x = 0.2), point_color = "black", interval_color = "black", .width = 0.95) +
         ggplot2::theme_minimal(base_size = 12) +
         ggplot2::labs(title = titulo, x = "", y = y) +
-        ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
+        ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12))
     }
   } else {
     stop("estilo invalido: use 1, 2, 3 ou 4.")
